@@ -15,6 +15,8 @@ public class InterfaceDataGetter {
 		
 		//using snmp we catch all info about routers interfaces
 		Interface i = new Interface();
+		i.setName("trt");
+		
 		interfaces.add(i);
 		
 		return interfaces;

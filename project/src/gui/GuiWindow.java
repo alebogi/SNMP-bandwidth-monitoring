@@ -14,6 +14,12 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import snmp.InterfaceDataGetter;
+import system.Interface;
+import system.MySystem;
+import system.Router;
+
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
@@ -22,14 +28,20 @@ import javax.swing.JButton;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class GuiWindow {
 	
+	private MySystem sys;
+	private ArrayList<Router> routers;
 	
-
 	private JFrame frmSnmpBandwidthMonitoring;
 
 	/**
@@ -52,6 +64,9 @@ public class GuiWindow {
 	 * Create the application.
 	 */
 	public GuiWindow() {
+		sys = new MySystem();
+		routers = sys.getRouters();
+		
 		initialize();
 	}
 
@@ -74,23 +89,70 @@ public class GuiWindow {
 		lblSelectRouter.setBounds(73, 12, 158, 40);
 		panel.add(lblSelectRouter);
 		
+		
+		String[] routers_string = {"", "", ""};
+		for(int i = 0; i < routers.size(); i++) {
+			routers_string[i] = routers.get(i).getIpAddressForSnmp();
+		}
+		
+		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"192.168.10.1", "192.168.20.1", "192.168.30.1"}));
+		
+		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"192.168.10.1", "192.168.20.1", "192.168.30.1"}));
+		comboBox.setModel(new DefaultComboBoxModel(routers_string));
 		comboBox.setMaximumRowCount(3);
 		comboBox.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 20));
 		comboBox.setBounds(234, 12, 181, 40);
 		panel.add(comboBox);
+			
+		
 		
 		JLabel lblSelectInterface = new JLabel("Select interface:");
 		lblSelectInterface.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 20));
 		lblSelectInterface.setBounds(493, 12, 193, 40);
 		panel.add(lblSelectInterface);
 		
+		
+		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setMaximumRowCount(3);
 		comboBox_1.setFont(new Font("DejaVu Math TeX Gyre", Font.BOLD, 20));
 		comboBox_1.setBounds(688, 12, 181, 40);
 		panel.add(comboBox_1);
+		
+		
+		//selekcija rutera
+		comboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				MySystem.setSelectedR(comboBox.getSelectedItem().toString());
+				String selectedIp = MySystem.getSelectedR();
+				String[] interfaces_string = {""};
+				
+				for(int i = 0; i < routers.size(); i++) {
+					if(routers.get(i).getIpAddressForSnmp().equals(selectedIp)) {
+						ArrayList<Interface> ifs = routers.get(i).getInterfaces();
+						for(int j = 0; j < ifs.size(); j++) {
+							interfaces_string[j] = ifs.get(j).getName();
+						}
+					}
+				}
+				
+				comboBox_1.setModel(new DefaultComboBoxModel(interfaces_string));
+			}
+		});
+		
+		//selekcija interfejsa
+		comboBox_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO prikazati odredjen grafik
+				MySystem.setSelectedIf(comboBox_1.getSelectedItem().toString());
+			}
+		});
+		
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(29, 63, 942, 459);
@@ -119,11 +181,11 @@ public class GuiWindow {
 				//prikazi sliku about.jpg
 				JFrame f = new JFrame();
 				JDialog dialog = new JDialog(f, "About", true);
-				dialog.setLayout(new BorderLayout());
+				dialog.getContentPane().setLayout(new BorderLayout());
 				ImageIcon pic = new ImageIcon("././attachments/about.jpg");
 				JLabel label = new JLabel();
 				label.setIcon(pic);
-				dialog.add(label, "Center");
+				dialog.getContentPane().add(label, "Center");
 				JButton b =new JButton("OK");
 				b.addActionListener(new ActionListener() {
 					
@@ -133,7 +195,7 @@ public class GuiWindow {
 						f.dispose();
 					}
 				});
-				dialog.add(b, "South");
+				dialog.getContentPane().add(b, "South");
 				
 				dialog.addWindowListener(new WindowAdapter() {
 
