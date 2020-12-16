@@ -15,6 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.XYChart;
+
 import snmp.InterfaceDataGetter;
 import system.Interface;
 import system.MySystem;
@@ -155,11 +160,29 @@ public class GuiWindow {
 		
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(135, 206, 250));
 		panel_1.setBounds(29, 63, 942, 459);
 		panel.add(panel_1);
 		panel_1.setLayout(new GridLayout(0, 2, 30, 0));
 		frmSnmpBandwidthMonitoring.setBounds(100, 100, 1000, 621);
 		frmSnmpBandwidthMonitoring.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		double[] x = {1.0, 2.0, 3.0};
+		double[] y = {1.0, 2.0, 3.0};
+		XYChart chartLeft =
+		        QuickChart.getChart(
+		            "Jedan grafik", "x", "y", "f(x)", x, y);
+		JPanel panelChartLeft = new  XChartPanel<XYChart>(chartLeft);
+		panel_1.add(panelChartLeft);
+		
+		double[] x2 = {1.0, 2.0, 3.0};
+		double[] y2 = {2.0, 4.0, 6.0};
+		XYChart chartRight =
+		        QuickChart.getChart(
+		            "Drugi grafik", "x", "y", "f(x)", x2, y2);
+		JPanel panelChartRight = new  XChartPanel<XYChart>(chartRight);
+		panel_1.add(panelChartRight);
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmSnmpBandwidthMonitoring.setJMenuBar(menuBar);
