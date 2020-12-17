@@ -108,11 +108,11 @@ public class InterfaceDataGetter {
 		return interfaces;
 	}
 
-	public void updateData(String ipAddr, String interfName) {
-		Router r = MySystem.getRouterByIp(ipAddr);
-		Interface interf = r.getInterfaceByName(interfName);
+	public void updateData() {
+		Router r = MySystem.getRouterByIp(MySystem.getSelectedR());
+		Interface interf = r.getInterfaceByName(MySystem.getSelectedIf());
 
-		establishSession(ipAddr);
+		establishSession(MySystem.getSelectedR());
 
 		try {
 			MibUtil.loadMib("mibs/IF-MIB");
@@ -121,11 +121,22 @@ public class InterfaceDataGetter {
 			for (int rowNum = 0; rowNum < resultTable.getRowCount(); rowNum++) {
 
 				if (interf.getId() == Integer.parseInt(resultTable.getValueAt(rowNum, COLUMN_NUM_ID).toString())) {
+					System.out.println("----PRIKUPLJAM PODATKE-----");
+
 					interf.setInOctets(Long.parseLong(resultTable.getValueAt(rowNum, COLUMN_NUM_IN_OCTETS).toString()));
 					interf.setInPkts(Long.parseLong(resultTable.getValueAt(rowNum, COLUMN_NUM_IN_PKTS).toString()));
 					interf.setOutOctets(
 							Long.parseLong(resultTable.getValueAt(rowNum, COLUMN_NUM_OUT_OCTETS).toString()));
 					interf.setOutPkts(Long.parseLong(resultTable.getValueAt(rowNum, COLUMN_NUM_OUT_PKTS).toString()));
+
+					System.out.println("in octets- " + interf.getInOctets());
+					System.out.println("in pkts- " + interf.getInPkts());
+					System.out.println("in bandwidth- " + interf.getInBandwidth());
+					System.out.println("~~~");
+					System.out.println("out octets- " + interf.getOutOctets());
+					System.out.println("out pkts- " + interf.getOutPkts());
+					System.out.println("out bandwidth- " + interf.getOutBandwidth());
+					System.out.println("---------");
 
 				}
 

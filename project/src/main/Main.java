@@ -1,5 +1,9 @@
 package main;
 
+import java.awt.EventQueue;
+
+import gui.GuiWindow;
+
 /**
  * 
  * @author Aleksandra Bogicevic
@@ -7,9 +11,20 @@ package main;
  */
 public class Main {
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GuiWindow window = new GuiWindow();
+					window.frmSnmpBandwidthMonitoring.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -23,12 +22,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.XChartPanel;
-import org.knowm.xchart.XYChart;
-
 import system.Interface;
 import system.MySystem;
+import system.RealtimeChart;
 import system.Router;
 
 /**
@@ -38,26 +34,12 @@ import system.Router;
  */
 public class GuiWindow {
 
+	private RealtimeChart chart;
+
 	private MySystem sys;
 	private ArrayList<Router> routers;
 
-	private JFrame frmSnmpBandwidthMonitoring;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GuiWindow window = new GuiWindow();
-					window.frmSnmpBandwidthMonitoring.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public JFrame frmSnmpBandwidthMonitoring;
 
 	/**
 	 * Create the application.
@@ -130,17 +112,11 @@ public class GuiWindow {
 					}
 				}
 
+				if (chart != null) {
+					chart.pauseGraphRepaint();
+				}
+
 				comboBox_1.setModel(new DefaultComboBoxModel(interfaces_string.toArray()));
-			}
-		});
-
-		// selekcija interfejsa
-		comboBox_1.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO prikazati odredjen grafik
-				MySystem.setSelectedIf(comboBox_1.getSelectedItem().toString());
 			}
 		});
 
@@ -152,18 +128,29 @@ public class GuiWindow {
 		frmSnmpBandwidthMonitoring.setBounds(100, 100, 1000, 621);
 		frmSnmpBandwidthMonitoring.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		double[] x = { 0.0 };
-		double[] y = { 0.0 };
-		XYChart chartLeft = QuickChart.getChart("Jedan grafik", "x", "y", "f(x)", x, y);
-		JPanel panelChartLeft = new XChartPanel<XYChart>(chartLeft);
-		panel_1.add(panelChartLeft);
+		chart = new RealtimeChart();
+		panel_1.add(chart.getPanelChartPkts());
 
-		double[] x2 = { 0.0 };
-		double[] y2 = { 0.0 };
-		XYChart chartRight = QuickChart.getChart("Drugi grafik", "x", "y", "f(x)", x2, y2);
-		JPanel panelChartRight = new XChartPanel<XYChart>(chartRight);
-		panel_1.add(panelChartRight);
+		// selekcija interfejsa
+		comboBox_1.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO prikazati odredjen grafik
+				MySystem.setSelectedIf(comboBox_1.getSelectedItem().toString());
+				if (chart.isThrStarted() == false) {
+					chart.startGraphRepaint();
+				} else {
+					chart.pauseGraphRepaint();
+					chart.resumeGraphRepaint();
+				}
+
+			}
+		});
+
+		panel_1.add(chart.getPanelChartBandwidth());
+
+		// -------------------
 		JMenuBar menuBar = new JMenuBar();
 		frmSnmpBandwidthMonitoring.setJMenuBar(menuBar);
 
