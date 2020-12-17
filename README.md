@@ -7,7 +7,8 @@ SNMP Bandwidth Monitor application is used to provide data about every router an
 Data that is provided:
 - Number of packages 
 - Bandwidth – bit/s \
-Data is represented in chart form.
+
+Depending on the time, the data is shown in the form of a chart.
 
 For more details - there is a pdf file in Serbian language (project is version 2).
 
