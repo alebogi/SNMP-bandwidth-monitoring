@@ -3,10 +3,10 @@
 School project - subject 13S113RM2 - Computer networks course, december 2020. 
 
 ## Description
-SNMP Bandwidth Monitor application is used to provide data about every router and every of its interfaces. \
-Data that is provided:
+SNMP Bandwidth Monitor application is used to provide data about every router and its interfaces. \
+Data provided:
 - Number of packages 
-- Bandwidth – bit/s \
+- Bandwidth – bit/s 
 
 Depending on the time, the data is shown in the form of a chart.
 
