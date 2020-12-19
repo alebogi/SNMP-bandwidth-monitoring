@@ -51,7 +51,8 @@ public class InterfaceDataGetter {
 			session.setTimeout(5000);
 			session.setRetries(0);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("SNMP sesija nije uspostavljena!");
 		}
 	}
 
@@ -100,7 +101,8 @@ public class InterfaceDataGetter {
 			}
 
 		} catch (IOException | MibParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("SNMP nije uspeo da dohvati podatke. Proverite konekciju sa mrezom.");
 		}
 
 		endSession();
@@ -143,7 +145,8 @@ public class InterfaceDataGetter {
 			}
 
 		} catch (IOException | MibParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("SNMP update podataka nije uspeo. Proverite konekciju sa mrezom.");
 		}
 
 		endSession();

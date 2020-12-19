@@ -161,6 +161,37 @@ public class GuiWindow {
 		mntmUserGuide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// prikazi sliku userGuide.jpg
+				JFrame f = new JFrame();
+				JDialog dialog = new JDialog(f, "About", true);
+				dialog.getContentPane().setLayout(new BorderLayout());
+				ImageIcon pic = new ImageIcon("././attachments/userGuide.jpg");
+				JLabel label = new JLabel();
+				label.setIcon(pic);
+				dialog.getContentPane().add(label, "Center");
+				JButton b = new JButton("OK");
+				b.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						dialog.dispose();
+						f.dispose();
+					}
+				});
+				dialog.getContentPane().add(b, "South");
+
+				dialog.addWindowListener(new WindowAdapter() {
+
+					@Override
+					public void windowClosing(WindowEvent e) {
+						dialog.dispose();
+						f.dispose();
+					}
+
+				});
+				dialog.setResizable(false);
+				f.setResizable(false);
+				dialog.setBounds(100, 100, 600, 610);
+				dialog.setVisible(true);
 			}
 		});
 		mnHelp.add(mntmUserGuide);
