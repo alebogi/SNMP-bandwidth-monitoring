@@ -52,7 +52,7 @@ public class InterfaceDataGetter {
 			session.setRetries(0);
 		} catch (IOException e) {
 			//e.printStackTrace();
-			System.out.println("SNMP sesija nije uspostavljena!");
+			System.out.println("SNMP session not established!");
 		}
 	}
 
@@ -102,7 +102,7 @@ public class InterfaceDataGetter {
 
 		} catch (IOException | MibParseException e) {
 			//e.printStackTrace();
-			System.out.println("SNMP nije uspeo da dohvati podatke. Proverite konekciju sa mrezom.");
+			System.out.println("SNMP couldn't get the data. Check your connection with network.");
 		}
 
 		endSession();
@@ -123,7 +123,7 @@ public class InterfaceDataGetter {
 			for (int rowNum = 0; rowNum < resultTable.getRowCount(); rowNum++) {
 
 				if (interf.getId() == Integer.parseInt(resultTable.getValueAt(rowNum, COLUMN_NUM_ID).toString())) {
-					System.out.println("----PRIKUPLJAM PODATKE-----");
+					System.out.println("---- COLLECTING DATA ----");
 
 					interf.setInOctets(Long.parseLong(resultTable.getValueAt(rowNum, COLUMN_NUM_IN_OCTETS).toString()));
 					interf.setInPkts(Long.parseLong(resultTable.getValueAt(rowNum, COLUMN_NUM_IN_PKTS).toString()));
@@ -146,7 +146,7 @@ public class InterfaceDataGetter {
 
 		} catch (IOException | MibParseException e) {
 			//e.printStackTrace();
-			System.out.println("SNMP update podataka nije uspeo. Proverite konekciju sa mrezom.");
+			System.out.println("SNMP couldn't update the data. Check your connection with network.");
 		}
 
 		endSession();
