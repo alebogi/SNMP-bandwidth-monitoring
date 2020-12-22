@@ -191,7 +191,29 @@ public class RealtimeChart implements Runnable {
 
 		return outDataPkts;
 	}
+	
+	/**
+	 * If graph is getting too big, we have to clear old points. Only newest 10
+	 * points are shown.
+	 */
+	public void clearOldPoints() {
+		int size = inDataPkts.size(); // all arrays are the same size
 
+		if (size <= 10) {
+			return;
+		} else {
+			inDataPkts.remove(0);
+			outDataPkts.remove(0);
+			inDataBandwidth.remove(0);
+			outDataBandwidth.remove(0);
+			x.remove(0);
+		}
+
+	}
+
+	/**
+	 * Updates x and y
+	 */
 	public void updateGraph() {
 		r = MySystem.getRouterByIp(MySystem.getSelectedR());
 		interf = r.getInterfaceByName(MySystem.getSelectedIf());
@@ -204,6 +226,8 @@ public class RealtimeChart implements Runnable {
 		bandwidthGraphOut();
 		packetsGraphIn();
 		packetsGraphOut();
+		
+		clearOldPoints();
 	}
 
 }
