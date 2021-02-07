@@ -15,13 +15,14 @@ For more details - there is a pdf file in Serbian language (project is version 2
 ## Instalation
 Using GNS3 open SNMP_setup project and start all routers. \
 At your computer in terminal insert following commands: \
+```
 sudo ip route add 192.168.10.0/24 via 192.168.122.100 dev virbr0 \
 sudo ip route add 192.168.20.0/24 via 192.168.122.100 dev virbr0 \
 sudo ip route add 192.168.30.0/24 via 192.168.122.100 dev virbr0 \
 sudo ip route add 192.168.12.0/24 via 192.168.122.100 dev virbr0 \
 sudo ip route add 192.168.13.0/24 via 192.168.122.100 dev virbr0 \
 sudo ip route add 192.168.23.0/24 via 192.168.122.100 dev virbr0 
-
+```
 When the connection between routers is established, launch java application. 
 
 ## Usage
